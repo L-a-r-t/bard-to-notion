@@ -8,7 +8,7 @@ import { getChatConfig, updateChatConfig } from "~utils/functions"
 import type { AutosaveStatus, ChatConfig } from "~utils/types"
 
 export const config: PlasmoContentScript = {
-  matches: ["https://chat.openai.com/*"]
+  matches: ["https://bard.google.com/*"]
 }
 
 let saving = false

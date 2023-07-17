@@ -11,7 +11,7 @@ import SettingsPopup from "~popup/SettingsPopup"
 import type { PopupEnum, StoredDatabase } from "~utils/types"
 
 export const config: PlasmoContentScript = {
-  matches: ["https://chat.openai.com/*"]
+  matches: ["https://bard.google.com/*"]
 }
 
 chrome.runtime.onMessage.addListener((message) => {

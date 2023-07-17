@@ -30,7 +30,7 @@ export default function Wrapper() {
     if (!token && !workspace_id)
       timeout = setTimeout(() => {
         chrome.tabs.create({
-          url: "https://api.notion.com/v1/oauth/authorize?client_id=323a93e9-98a0-4f5a-a194-af728f1b817e&response_type=code&owner=user&redirect_uri=https%3A%2F%2Ftheo-lartigau.notion.site%2FChatGPT-to-Notion-af29d9538dca4493a15bb4ed0fde7f91"
+          url: "https://api.notion.com/v1/oauth/authorize?client_id=1f370183-ed8e-4221-8ed5-70d48e682069&response_type=code&owner=user&redirect_uri=https%3A%2F%2Ftheo-lartigau.notion.site%2FBard-to-Notion-f0dfe63e7dee485e8d2d7aa5a1102388"
         })
       }, 100)
     return () => clearTimeout(timeout)

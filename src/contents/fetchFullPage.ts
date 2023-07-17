@@ -1,7 +1,7 @@
 import type { PlasmoContentScript } from "plasmo"
 
 export const config: PlasmoContentScript = {
-  matches: ["https://chat.openai.com/*"]
+  matches: ["https://bard.google.com/*"]
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -9,14 +9,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 })
 
 const fetchFullChat = () => {
-  const matches = document.querySelectorAll(".group.w-full")
+  const matches = document.querySelectorAll(".conversation-container")
   const chat = Array.from(matches)
 
   const rawPrompts = chat.filter((el, index) => index % 2 === 0)
   const rawAnswers = chat.filter((el, index) => index % 2 === 1)
 
   const prompts = rawPrompts.map(
-    (el) => el.querySelector(".whitespace-pre-wrap")?.textContent
+    (el) => el.querySelector(".query-text")?.textContent
   )
   const answers = rawAnswers.map(
     (el) =>
@@ -27,7 +27,9 @@ const fetchFullChat = () => {
   )
 
   const url = window.location.href
-  const title = document.title
+  const title = document.querySelector(
+    ".conversation.selected > .conversation-title"
+  )
 
   return { prompts, answers, url, title }
 }

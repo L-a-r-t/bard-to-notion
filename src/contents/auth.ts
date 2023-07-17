@@ -4,7 +4,7 @@ import { Storage } from "@plasmohq/storage"
 
 export const config: PlasmoContentScript = {
   matches: [
-    "https://theo-lartigau.notion.site/ChatGPT-to-Notion-af29d9538dca4493a15bb4ed0fde7f91*"
+    "https://theo-lartigau.notion.site/Bard-to-Notion-f0dfe63e7dee485e8d2d7aa5a1102388*"
   ]
 }
 

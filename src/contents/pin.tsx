@@ -19,11 +19,11 @@ import { getChatConfig, i18n } from "~utils/functions"
 import type { AutosaveStatus, PopupEnum } from "~utils/types"
 
 export const config: PlasmoContentScript = {
-  matches: ["https://chat.openai.com/*"]
+  matches: ["https://bard.google.com/*"]
 }
 
 export const getInlineAnchorList: PlasmoGetInlineAnchorList = async () =>
-  document.querySelectorAll(".flex-col.items-end > div > .p-1")
+  document.querySelectorAll(".logo-gutter > .logo")
 
 export const render: PlasmoRender = async ({
   anchor, // the observed anchor, OR document.body.
@@ -32,9 +32,11 @@ export const render: PlasmoRender = async ({
   // @ts-ignore
   const rootContainer = await createRootContainer(anchor)
 
-  const root = createRoot(rootContainer) // Any root
+  const root = createRoot(rootContainer)
+  // Will investigate if there is a better way to do this because this is terrible
   const parent =
     anchor?.element?.parentElement?.parentElement?.parentElement?.parentElement
+      ?.parentElement?.parentElement
   parent?.classList.add("pin")
   root.render(
     <>
@@ -119,7 +121,9 @@ const Content = ({ parent }: Props) => {
       parent.previousElementSibling.querySelector(".whitespace-pre-wrap")
         .textContent
     )
-    const title = document.title
+    const title = document.querySelector(
+      ".conversation.selected > .conversation-title"
+    )
     const url = window.location.href
 
     await setToBeSaved({
