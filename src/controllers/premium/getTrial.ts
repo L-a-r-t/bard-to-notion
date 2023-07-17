@@ -1,5 +1,5 @@
 import dayjs from "dayjs"
-import TokenData from "../../models/token"
+import BardData from "../../models/token"
 import dotenv from "dotenv"
 import { Request, Response } from "express"
 
@@ -10,7 +10,7 @@ export const getTrial = async (req: Request, res: Response) => {
     const { workspace_id, user_id } = req.body
 
     const id = `${workspace_id}:${user_id}`
-    const user = await TokenData.findOne({ id })
+    const user = await BardData.findOne({ id })
     if (!user) throw new Error("User not found")
 
     const { license_key, trial_end } = user
@@ -33,7 +33,7 @@ export const getTrial = async (req: Request, res: Response) => {
 
     const trialEnd = dayjs().add(7, "day").toDate()
 
-    await TokenData.findOneAndUpdate(
+    await BardData.findOneAndUpdate(
       { id },
       {
         trial_end: trialEnd,

@@ -1,4 +1,4 @@
-import TokenData from "../../models/token"
+import BardData from "../../models/token"
 import { Request, Response } from "express"
 import axios from "axios"
 import dayjs from "dayjs"
@@ -7,7 +7,7 @@ export const get = async (req: Request, res: Response) => {
   try {
     const { workspace_id, user_id } = req.body
     const id = `${workspace_id}:${user_id}`
-    const data = await TokenData.findOne({ id })
+    const data = await BardData.findOne({ id })
     if (!data) throw new Error("token not found")
 
     const activeTrial = data.trial_end

@@ -64,5 +64,5 @@ const tokenSchema = new mongoose.Schema({
   owner: ownerSchema,
 })
 
-const TokenData = mongoose.model("TokenData", tokenSchema)
-export default TokenData
+const BardData = mongoose.model("BardData", tokenSchema)
+export default BardData

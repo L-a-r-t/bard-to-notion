@@ -1,5 +1,5 @@
 import api from "../../config/axios"
-import TokenData from "../../models/token"
+import BardData from "../../models/token"
 import dotenv from "dotenv"
 import { Request, Response } from "express"
 
@@ -34,10 +34,10 @@ export const generate = async (req: Request, res: Response) => {
     const id = `${notionRes.data.workspace_id}:${
       notionRes.data.owner.workspace ? "x" : notionRes.data.owner.user.id
     }`
-    await TokenData.deleteMany({
+    await BardData.deleteMany({
       id,
     })
-    await TokenData.create({
+    await BardData.create({
       ...notionRes.data,
       id,
     })

@@ -1,5 +1,5 @@
 import axios from "axios"
-import TokenData from "../../models/token"
+import BardData from "../../models/token"
 import dotenv from "dotenv"
 import { Request, Response } from "express"
 
@@ -36,7 +36,7 @@ export const register = async (req: Request, res: Response) => {
 
     const id = `${workspace_id}:${user_id}`
     if (gumroadRes.data.success) {
-      await TokenData.findOneAndUpdate(
+      await BardData.findOneAndUpdate(
         { id },
         {
           license_key: license_key,
