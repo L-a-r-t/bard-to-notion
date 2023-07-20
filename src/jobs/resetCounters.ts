@@ -33,12 +33,16 @@ const resetCounters = {
   scheduleRecurrence() {
     const rule = new schedule.RecurrenceRule()
     rule.hour = 0
-    rule.minute = 0
+    rule.minute = 25
     rule.second = 0
     rule.tz = "Etc/UTC"
 
     const dailyJob = schedule.scheduleJob(rule, callback)
-    console.log(`JOB:\n${dailyJob.name}\n HAS BEEN SCHEDULED`)
+    console.log(
+      `JOB:\n${
+        dailyJob.name
+      }\n HAS BEEN SCHEDULED FOR ${dailyJob.nextInvocation()}`
+    )
   },
 }
 
