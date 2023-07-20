@@ -1,4 +1,4 @@
-import { save } from "controllers"
+import { save } from "../controllers"
 import express from "express"
 
 const router = express.Router()
