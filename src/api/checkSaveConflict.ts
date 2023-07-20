@@ -20,8 +20,9 @@ export const checkSaveConflict = async ({
 
     const storage = new Storage()
     const savesLeft = await storage.get<number>("savesLeft")
+    const isPremium = await storage.get<boolean>("isPremium")
 
-    if (savesLeft === 0) throw new Error("No saves left today")
+    if (!isPremium && savesLeft === 0) throw new Error("No saves left today")
 
     const notion = await getNotion()
     const { propertiesIds, tags, tagPropertyIndex, tagIndex } = database

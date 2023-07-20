@@ -279,7 +279,9 @@ export default function SavePopup() {
         </>
       )}
       <button
-        disabled={loading || success || !authenticated || savesLeft <= 0}
+        disabled={
+          loading || success || !authenticated || (savesLeft <= 0 && !isPremium)
+        }
         className="button w-full disabled:bg-main"
         onClick={() => handleSave(db!)}>
         {!authenticated ? (

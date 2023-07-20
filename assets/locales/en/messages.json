@@ -291,6 +291,10 @@
     "message": "Already have a key? Enter it here",
     "description": "Premium activate description."
   },
+  "premium_chatgpt": {
+    "message": "Your ChatGPT to Notion key will also work here!",
+    "description": "Premium chatgpt key message"
+  },
   "premium_success": {
     "message": "Thanks a lot for your support & purchase! Enjoy autosave and future features as much as you want!",
     "description": "Premium success message."

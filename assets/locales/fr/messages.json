@@ -283,6 +283,10 @@
     "message": "Vous avez déjà une clé ? Entrez-la ici",
     "description": "Premium activate description."
   },
+  "premium_chatgpt": {
+    "message": "Votre clé pour ChatGPT to Notion marche ici aussi !",
+    "description": "Premium chatgpt key message"
+  },
   "premium_success": {
     "message": "Merci beaucoup pour votre achat et votre soutien! Profitez des fonctionnalités premium à votre guise!",
     "description": "Premium success message."

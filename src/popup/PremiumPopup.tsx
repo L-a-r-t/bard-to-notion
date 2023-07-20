@@ -14,6 +14,7 @@ dayjs.extend(localizedFormat)
 
 function PremiumPopup() {
   const [isPremium, setPremiumStatus] = useStorage("isPremium", false)
+  const [savesLeft, setSavesLeft] = useStorage("savesLeft", 10)
 
   const [licenseKey, setLicenseKey] = useState("")
   const [loading, setLoading] = useState(false)
@@ -31,6 +32,7 @@ function PremiumPopup() {
       const res = await registerKey(licenseKey)
       setPremiumStatus(res.success)
       setKeyStatus(res.success ? "valid" : "invalid")
+      if (res.success) setSavesLeft(1000)
     } catch (err) {
       console.error(err)
     } finally {
@@ -118,6 +120,9 @@ function PremiumPopup() {
         {keyStatus === "invalid" && i18n("premium_key_activate_error")}
         {loading && <Spinner white small />}
       </button>
+      {keyStatus === "unknown" && (
+        <p className="text-sm">{i18n("premium_chatgpt")}</p>
+      )}
       {/* {keyStatus === "unknown" && (
         <>
           <div className="my-2 relative w-full">

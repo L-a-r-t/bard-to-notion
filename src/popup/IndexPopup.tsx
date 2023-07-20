@@ -295,7 +295,9 @@ function IndexPopup() {
         </>
       )}
       <button
-        disabled={loading || success || !authenticated || savesLeft <= 0}
+        disabled={
+          loading || success || !authenticated || (savesLeft <= 0 && !isPremium)
+        }
         className="button disabled:bg-main"
         onClick={() => handleSave()}>
         {!authenticated ? (
