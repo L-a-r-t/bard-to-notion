@@ -47,7 +47,7 @@ function ErrorPopup() {
       if (!config) return
       setLoading(true)
       await chrome.runtime.sendMessage({
-        type: "chatgpt-to-notion_triggerAutosave",
+        type: "bard-to-notion_triggerAutosave",
         body: {
           chatID,
           config

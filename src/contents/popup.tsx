@@ -15,7 +15,7 @@ export const config: PlasmoContentScript = {
 }
 
 chrome.runtime.onMessage.addListener((message) => {
-  if (message.type === "chatgpt-to-notion_alert") alert(message.body)
+  if (message.type === "bard-to-notion_alert") alert(message.body)
 })
 
 export const getStyle: PlasmoGetStyle = () => {
@@ -44,7 +44,7 @@ const Wrapper = () => {
         className="absolute top-3 right-3 rounded bg-white text-black shadow-lg"
         onPointerDown={(e) => e.stopPropagation()}>
         <div className="flex flex-col p-3 w-64 text-base">
-          <img src={illustration} alt="ChatGPT to Notion" />
+          <img src={illustration} alt="Bard to Notion" />
           {showPopup === "error" ? <ErrorPopup /> : <Popup />}
         </div>
       </div>

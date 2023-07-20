@@ -23,9 +23,11 @@ import useTags from "~hooks/useTags"
 import { getConsiseErrMessage, i18n } from "~utils/functions"
 
 import ConflictPopup from "./ConflictPopup"
+import { reportSave } from "~api/reportSave"
+import StarIcon from "~common/star"
 
 export default function SavePopup() {
-  const [showPopup, setShowPopup] = useStorage<PopupEnum | false>("showPopup")
+  const [_, showPopup] = useStorage<PopupEnum | false>("showPopup")
   const [toBeSaved, setToBeSaved] = useStorage<ToBeSaved>("toBeSaved")
   const [databases] = useStorage<StoredDatabase[]>("databases", [])
   const [selectedDB, setSelectedDB] = useStorage<number>("selectedDB", 0)
@@ -37,7 +39,7 @@ export default function SavePopup() {
 
   const [authenticated] = useStorage("authenticated", false)
   const [isPremium] = useStorage("isPremium", false)
-  const [activeTrial] = useStorage("activeTrial", false)
+  const [savesLeft] = useStorage("savesLeft", 10)
 
   const [titleType, setTitleType] = useState<"title" | "prompt" | "custom">(
     "title"
@@ -75,7 +77,7 @@ export default function SavePopup() {
 
       const database = db!
       const checkRes = await chrome.runtime.sendMessage({
-        type: "chatgpt-to-notion_checkSaveConflict",
+        type: "bard-to-notion_checkSaveConflict",
         body: {
           title,
           database
@@ -106,8 +108,6 @@ export default function SavePopup() {
 
       const req = {
         title,
-        // compression helps with having a single saveChat api function
-        // it is very fast and does not affect the user experience
         prompts: [toBeSaved!.prompt],
         answers: [toBeSaved!.answer],
         url: toBeSaved!.url,
@@ -116,7 +116,7 @@ export default function SavePopup() {
       }
       const parsedReq = await parseSave(req)
       const res = await chrome.runtime.sendMessage({
-        type: "chatgpt-to-notion_saveChat",
+        type: "bard-to-notion_saveChat",
         body: {
           ...parsedReq,
           conflictingPageId,
@@ -125,6 +125,7 @@ export default function SavePopup() {
         }
       })
       if (!res.err) {
+        reportSave(1, isPremium)
         setSuccess(true)
         setLoading(false)
         setConflictingPageId(undefined)
@@ -135,7 +136,7 @@ export default function SavePopup() {
       setLoading(false)
       setTimeout(() => {
         setToBeSaved(null)
-        setShowPopup(false)
+        showPopup(false)
       }, 5000)
       return
     } catch (err) {
@@ -155,7 +156,7 @@ export default function SavePopup() {
   ) : (
     <>
       {success ? (
-        isPremium || activeTrial ? (
+        isPremium ? (
           <div />
         ) : (
           <div className="mb-4">
@@ -166,7 +167,7 @@ export default function SavePopup() {
               {i18n("sponsored")}
             </a> */}
             <a
-              href="https://chrome.google.com/webstore/detail/chatgpt-to-notion/oojndninaelbpllebamcojkdecjjhcle"
+              href="https://chrome.google.com/webstore/detail/bard-to-notion/oojndninaelbpllebamcojkdecjjhcle"
               target="_blank">
               <img
                 src={banner2}
@@ -278,7 +279,7 @@ export default function SavePopup() {
         </>
       )}
       <button
-        disabled={loading || success || !authenticated}
+        disabled={loading || success || !authenticated || savesLeft <= 0}
         className="button w-full disabled:bg-main"
         onClick={() => handleSave(db!)}>
         {!authenticated ? (
@@ -307,6 +308,21 @@ export default function SavePopup() {
           <label htmlFor="generateHeadings">
             {i18n("save_generateHeadings")}
           </label>
+          {!isPremium && (
+            <>
+              <div className="border mb-3" />
+              {savesLeft > 0 ? (
+                <p className="text-sm text-center">
+                  {savesLeft}
+                  {i18n("save_leftToday")}
+                </p>
+              ) : (
+                <p className="text-sm text-center">
+                  {i18n("save_noMoreToday")}
+                </p>
+              )}
+            </>
+          )}
         </div>
       )}
       {error?.message && (

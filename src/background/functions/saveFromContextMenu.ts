@@ -6,6 +6,7 @@ import { checkSaveConflict } from "~api/checkSaveConflict"
 import { parseSave } from "~api/parseSave"
 import { saveChat } from "~api/saveChat"
 import type { StoredDatabase } from "~utils/types"
+import { reportSave } from "~api/reportSave"
 
 const saveFromContextMenu = async (saveBehavior: "append" | "override") => {
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -40,14 +41,20 @@ const saveFromContextMenu = async (saveBehavior: "append" | "override") => {
       generateHeadings,
       saveBehavior
     } as any)
+
+    const isPremium = await storage.get<boolean>("isPremium")
+    // we don't wait for a response as we want to give feedback to the user ASAP
+    // this failing means more saves for a free user, which is a good thing for them
+    reportSave(answers.length, isPremium)
+
     chrome.tabs.sendMessage(tabId, {
-      type: "chatgpt-to-notion_alert",
+      type: "bard-to-notion_alert",
       body: "Saved successfully to" + database.title + "!"
     })
   } catch (err) {
     console.error(err)
     chrome.tabs.sendMessage(tabId, {
-      type: "chatgpt-to-notion_alert",
+      type: "bard-to-notion_alert",
       body: "Save error: " + err.message
     })
   }

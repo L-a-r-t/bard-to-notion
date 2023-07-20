@@ -1,10 +1,10 @@
 {
   "extensionName": {
-    "message": "ChatGPT vers Notion",
+    "message": "Bard vers Notion",
     "description": "Name of the extension."
   },
   "extensionDescription": {
-    "message": "Sauvegardez vos discussions avec ChatGPT directement dans Notion!",
+    "message": "Sauvegardez vos discussions avec Bard directement dans Notion!",
     "description": "Description of the extension."
   },
   "errConnect": {
@@ -96,8 +96,16 @@
     "description": "Unauthorized message."
   },
   "save_generateHeadings" : {
-    "message": "Générer les titres et le sommaire",
+    "message": "Titres et sommaire",
     "description": "Generate headings label."
+  },
+  "save_leftToday": {
+    "message": " réponses à sauvegarder aujourd'hui",
+    "description": "Answers left to save for free today label."
+  },
+  "save_noMoreToday": {
+    "message": "Plus de sauvegardes, actualisation à minuit (UTC)",
+    "description": "No more answers left to save for free today label."
   },
   "conflict_text": {
     "message": "Une page dans votre BDD a le même nom que cette conversation",
@@ -187,9 +195,9 @@
     "message": "Allez sur le site de",
     "description": "Go to label."
   },
-  "wrongpage_chatgpt": {
-    "message": "ChatGPT",
-    "description": "ChatGPT page label."
+  "wrongpage_bard": {
+    "message": "Bard",
+    "description": "Bard page label."
   },
   "wrongpage_toUse": {
     "message": "pour utiliser cette extension",
@@ -227,9 +235,9 @@
     "message": "Le premium comprend :",
     "description": "Is premium meaning message."
   },
-  "premium_isPremium_autosave": {
-    "message": "Sauvegarde auto",
-    "description": "Is premium autosave message."
+  "premium_isPremium_unlimitedSaves": {
+    "message": "Sauvegarde illimitée",
+    "description": "Is premium unlimited saves message."
   },
   "premium_isPremium_future": {
     "message": "Prochaines fonctionnalités premium",
@@ -248,7 +256,7 @@
     "description": "Is premium gratitude message."
   },
   "premium_desc": {
-    "message": "Débloquez de nouvelles fonctionnalités, enlevez les pubs et soutenez le développement de l'extension pour 2€/mois !",
+    "message": "Sauvegardez en illimité, enlevez les pubs et soutenez le développement de l'extension pour 2€/mois !",
     "description": "Premium description."
   },
   "premium_cta": {
@@ -344,7 +352,7 @@
     "description": "Autosave disable label."
   },
   "autosave_wrongpage": {
-    "message": "Démarrez une conversation avec ChatGPT et actualisez la page",
+    "message": "Démarrez une conversation avec Bard et actualisez la page",
     "description": "Autosave wrong page message."
   },
   "autosave_error": {

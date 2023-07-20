@@ -56,7 +56,6 @@ const Content = ({ parent }: Props) => {
   )
   const [authenticated] = useStorage("authenticated", false)
   const [isPremium] = useStorage("isPremium", false)
-  const [activeTrial] = useStorage("activeTrial", false)
   const [chatID] = useStorage("chatID", "")
   const [status] = useStorage<AutosaveStatus>("autosaveStatus", "generating")
 
@@ -64,7 +63,7 @@ const Content = ({ parent }: Props) => {
   const [isLastMessage, setIsLastMessage] = useState(false)
 
   useEffect(() => {
-    if (!(isPremium || activeTrial) || !chatID) return
+    if (!isPremium || !chatID) return
     const checkAutosave = async () => {
       const config = await getChatConfig(chatID)
       if (!config) return
@@ -112,19 +111,21 @@ const Content = ({ parent }: Props) => {
     const answer = await compress(
       // @ts-ignore
       (
-        parent.querySelector(".markdown") ??
-        parent.querySelector(".dark.text-orange-500")
+        parent.querySelector(
+          ".response-content > .model-response-text > .markdown"
+        ) ?? parent.querySelector(".dark.text-orange-500")
       ).innerHTML
     )
     const prompt = await compress(
       // @ts-ignore
-      parent.previousElementSibling.querySelector(".whitespace-pre-wrap")
-        .textContent
-    )
-    const title = document.querySelector(
-      ".conversation.selected > .conversation-title"
+      parent.previousElementSibling.querySelector(".query-text").textContent
     )
     const url = window.location.href
+    let title =
+      document.querySelector(".conversation.selected > .conversation-title")
+        ?.textContent ?? "New Conversation"
+
+    title = title.trim()
 
     await setToBeSaved({
       answer,
@@ -163,7 +164,7 @@ const Content = ({ parent }: Props) => {
   return (
     <button
       onClick={handleClick}
-      className="text-gray-800 dark:text-gray-100 pin"
+      className="pin"
       style={{
         background: "transparent",
         border: "none",
@@ -171,7 +172,8 @@ const Content = ({ parent }: Props) => {
         padding: 4,
         borderRadius: 4,
         width: 30,
-        cursor: "pointer"
+        cursor: "pointer",
+        color: "var(--bard-color-on-surface)"
       }}>
       <PinIcon />
     </button>

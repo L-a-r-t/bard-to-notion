@@ -41,7 +41,7 @@ function SettingsPopup() {
       setDbError(null)
       setFetching(true)
       const response = await chrome.runtime.sendMessage({
-        type: "chatgpt-to-notion_search",
+        type: "bard-to-notion_search",
         body: {
           query
         }

@@ -7,7 +7,7 @@ export const registerKey = async (license_key: string) => {
     const user_id = await storage.get("user_id")
 
     const response = await fetch(
-      "https://chatgpt-to-notion.onrender.com/premium/register",
+      "https://bard-to-notion.onrender.com/premium/register",
       {
         method: "POST",
         headers: {

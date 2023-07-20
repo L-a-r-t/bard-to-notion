@@ -100,7 +100,7 @@ const callback = async (mutations: MutationRecord[]) => {
         const generateHeadings = true
 
         const { conflictingPageId } = await chrome.runtime.sendMessage({
-          type: "chatgpt-to-notion_checkSaveConflict",
+          type: "bard-to-notion_checkSaveConflict",
           body: {
             title,
             database
@@ -114,7 +114,7 @@ const callback = async (mutations: MutationRecord[]) => {
           conflictingPageId
         }
         const res = await chrome.runtime.sendMessage({
-          type: "chatgpt-to-notion_autoSave",
+          type: "bard-to-notion_autoSave",
           body: parsedReq
         })
         saving = false
@@ -183,6 +183,7 @@ const observer = new MutationObserver(callback)
 // https://stackoverflow.com/questions/3522090/event-when-window-location-href-changes
 let oldHref = document.location.href
 window.onload = () => {
+  return // current way of autosaving isn't doable with Bard as of now, will work on another solution
   initialize()
   new MutationObserver((mutations) =>
     mutations.forEach(() => {

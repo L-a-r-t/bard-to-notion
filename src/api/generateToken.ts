@@ -8,7 +8,7 @@ export const generateToken = async (code: string) => {
       secretKeyList: ["token"]
     })
     const response = await fetch(
-      "https://chatgpt-to-notion.onrender.com/token/new",
+      "https://bard-to-notion.onrender.com/token/new",
       {
         method: "POST",
         headers: {
@@ -18,7 +18,7 @@ export const generateToken = async (code: string) => {
           code,
           grant_type: "authorization_code",
           redirect_uri:
-            "https://theo-lartigau.notion.site/ChatGPT-to-Notion-af29d9538dca4493a15bb4ed0fde7f91"
+            "https://theo-lartigau.notion.site/Bard-to-Notion-f0dfe63e7dee485e8d2d7aa5a1102388"
         })
       }
     )

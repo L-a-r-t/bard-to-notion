@@ -1,18 +1,17 @@
+import { Storage } from "@plasmohq/storage"
+
 export const getToken = async ({ workspace_id, user_id }: GetTokenParams) => {
   try {
-    const response = await fetch(
-      "https://chatgpt-to-notion.onrender.com/token",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          workspace_id,
-          user_id
-        })
-      }
-    )
+    const response = await fetch("https://bard-to-notion.onrender.com/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        workspace_id,
+        user_id
+      })
+    })
     const res = await response.json()
     return res
   } catch (err) {

@@ -32,9 +32,10 @@ import {
 } from "~utils/functions"
 
 import ConflictPopup from "./ConflictPopup"
+import { reportSave } from "~api/reportSave"
 
 function IndexPopup() {
-  const [popup, setPopup] = useStorage<PopupEnum>("popup", "index")
+  const [_, setPopup] = useStorage<PopupEnum>("popup", "index")
   const [selectedDB, setSelectedDB] = useStorage<number>("selectedDB", 0)
   const [databases] = useStorage<StoredDatabase[]>("databases", [])
   const [generateHeadings, setGenerateHeadings] = useStorage<boolean>(
@@ -45,10 +46,10 @@ function IndexPopup() {
 
   const [authenticated] = useStorage("authenticated", false)
   const [isPremium] = useStorage("isPremium", false)
-  const [activeTrial] = useStorage("activeTrial", false)
   const [s, setAutosaveStatus] = useStorage<AutosaveStatus>("autosaveStatus")
   const [chatID] = useStorage("chatID", null)
   const [autoSaveEnabled, setAutoSave] = useState(false)
+  const [savesLeft] = useStorage("savesLeft", 10)
 
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -91,8 +92,12 @@ function IndexPopup() {
         return
       }
       const database = db!
+      const title: string = await chrome.tabs.sendMessage(currentTab.id, {
+        type: "bard-to-notion_fetchTitle"
+      })
+      console.log(`"${title}"`)
       const checkRes = await checkSaveConflict({
-        title: currentTab.title ?? "",
+        title: title ?? "",
         database
       })
       if (checkRes.conflict) {
@@ -134,8 +139,9 @@ function IndexPopup() {
         answers: string[]
         url: string
       } = await chrome.tabs.sendMessage(currentTab.id, {
-        type: "chatgpt-to-notion_fetchFullChat"
+        type: "bard-to-notion_fetchFullChat"
       })
+      console.log(`"${chat.title}"`)
       const req = {
         ...chat,
         // compression helps with having a single saveChat api function
@@ -158,6 +164,10 @@ function IndexPopup() {
         setLoading(false)
         return
       }
+
+      // we don't wait for a response as we want to give feedback to the user ASAP
+      // this failing means more saves for a free user, which is a good thing for them
+      reportSave(chat.answers.length, isPremium)
 
       if (autosave) {
         const chatID = currentTab?.url?.split("/c/").pop()
@@ -210,7 +220,7 @@ function IndexPopup() {
               </div>
             </div>
           </div>
-        ) : isPremium || activeTrial ? (
+        ) : isPremium ? (
           <div />
         ) : (
           <div className="mb-4">
@@ -285,7 +295,7 @@ function IndexPopup() {
         </>
       )}
       <button
-        disabled={loading || success || !authenticated}
+        disabled={loading || success || !authenticated || savesLeft <= 0}
         className="button disabled:bg-main"
         onClick={() => handleSave()}>
         {!authenticated ? (
@@ -316,25 +326,25 @@ function IndexPopup() {
               {i18n("save_generateHeadings")}
             </label>
           </div>
-          <button
-            disabled={!chatID && !(isPremium || activeTrial)}
-            onClick={() =>
-              isPremium || activeTrial ? handleSave(true) : setPopup("premium")
-            }
-            className={`button-outline ${
-              !chatID && !(isPremium || activeTrial)
-                ? "text-sm font-normal"
-                : ""
-            }`}>
-            {!(isPremium || activeTrial) && <StarIcon />}
-            {!(isPremium || activeTrial) && i18n("autosave_try")}
-            {(isPremium || activeTrial) &&
-              (chatID
-                ? autoSaveEnabled
-                  ? i18n("autosave_disable")
-                  : i18n("autosave_enable")
-                : i18n("autosave_wrongpage"))}
-          </button>
+          {!isPremium && (
+            <>
+              <button
+                className="button-outline w-full"
+                onClick={() => setPopup("premium")}>
+                <StarIcon /> Go premium
+              </button>
+              {savesLeft > 0 ? (
+                <p className="text-sm text-center">
+                  {savesLeft}
+                  {i18n("save_leftToday")}
+                </p>
+              ) : (
+                <p className="text-sm text-center">
+                  {i18n("save_noMoreToday")}
+                </p>
+              )}
+            </>
+          )}
         </>
       )}
       {error?.message && (

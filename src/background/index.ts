@@ -20,7 +20,7 @@ import {
 // Functions here aren't decoupled from the background script because of odd behavior with sendResponse
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   switch (message.type) {
-    case "chatgpt-to-notion_search":
+    case "bard-to-notion_search":
       searchNotion(message.body.query)
         .then((res) => {
           sendResponse(res)
@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           sendResponse({ err })
         })
       break
-    case "chatgpt-to-notion_checkSaveConflict":
+    case "bard-to-notion_checkSaveConflict":
       checkSaveConflict(message.body)
         .then((res) => {
           sendResponse(res)
@@ -40,7 +40,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           sendResponse({ err })
         })
       break
-    case "chatgpt-to-notion_saveChat":
+    case "bard-to-notion_saveChat":
       saveChat(message.body)
         .then((res) => {
           sendResponse(res)
@@ -50,7 +50,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           sendResponse({ err })
         })
       break
-    case "chatgpt-to-notion_autoSave":
+    case "bard-to-notion_autoSave":
       const storage = new Storage()
       saveChat(message.body)
         .then((res) => {
@@ -63,7 +63,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           sendResponse({ err })
         })
       break
-    case "chatgpt-to-notion_generateToken":
+    case "bard-to-notion_generateToken":
       // using two means of checking if user is logged in just to be sure
       const session = new Storage({
         area: "session",
@@ -82,7 +82,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           })
       })
       break
-    case "chatgpt-to-notion_getDB":
+    case "bard-to-notion_getDB":
       getDatabase(message.body.id)
         .then((res) => {
           sendResponse(res)
@@ -104,12 +104,12 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "append",
     title: "Save chat to Notion (append if conflict)",
-    targetUrlPatterns: ["https://chat.openai.com/*"]
+    targetUrlPatterns: ["https://bard.google.com/*"]
   })
   chrome.contextMenus.create({
     id: "override",
     title: "Save chat to Notion (override if conflict)",
-    targetUrlPatterns: ["https://chat.openai.com/*"]
+    targetUrlPatterns: ["https://bard.google.com/*"]
   })
 })
 

@@ -1,10 +1,10 @@
 {
   "extensionName": {
-    "message": "ChatGPT to Notion",
+    "message": "Bard to Notion",
     "description": "Name of the extension."
   },
   "extensionDescription": {
-    "message": "Save your discussions with ChatGPT directly into Notion!",
+    "message": "Save your discussions with Bard directly into Notion!",
     "description": "Description of the extension."
   },
   "errConnect": {
@@ -104,8 +104,16 @@
     "description": "Server error message."
   },
   "save_generateHeadings" : {
-    "message": "Generate headings & table of contents",
+    "message": "Headings & table of contents",
     "description": "Generate headings label."
+  },
+  "save_leftToday": {
+    "message": " answers left to save for free today",
+    "description": "Answers left to save for free today label."
+  },
+  "save_noMoreToday": {
+    "message": "No free saves left today, will reset at midnight UTC",
+    "description": "No more answers left to save for free today label."
   },
   "conflict_text": {
     "message": "A page in your database holds the same name as this conversation",
@@ -195,9 +203,9 @@
     "message": "Go to",
     "description": "Go to label."
   },
-  "wrongpage_chatgpt": {
-    "message": "ChatGPT's page",
-    "description": "ChatGPT page label."
+  "wrongpage_bard": {
+    "message": "Bard's page",
+    "description": "Bard page label."
   },
   "wrongpage_toUse": {
     "message": "to start doing fancy stuff",
@@ -235,9 +243,9 @@
     "message": "That means that you have:",
     "description": "Is premium meaning message."
   },
-  "premium_isPremium_autosave": {
-    "message": "Autosave",
-    "description": "Is premium autosave message."
+  "premium_isPremium_unlimitedSaves": {
+    "message": "Unlimited saves",
+    "description": "Is premium unlimited saves message."
   },
   "premium_isPremium_future": {
     "message": "Future premium features",
@@ -256,7 +264,7 @@
     "description": "Is premium gratitude message."
   },
   "premium_desc": {
-    "message": "Unlock new features, get rid of ads and support development for $2 per month!",
+    "message": "Save without limits, get rid of ads and support development for $2 per month!",
     "description": "Premium description."
   },
   "premium_cta": {
@@ -352,7 +360,7 @@
     "description": "Autosave disable label."
   },
   "autosave_wrongpage": {
-    "message": "Start a discussion with ChatGPT and reload the page to use autosave",
+    "message": "Start a discussion with Bard and reload the page to use autosave",
     "description": "Autosave wrong page message."
   },
   "autosave_error": {

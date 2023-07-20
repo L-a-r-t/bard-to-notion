@@ -7,7 +7,7 @@ export const activateTrial = async () => {
     const user_id = await storage.get("user_id")
 
     const response = await fetch(
-      "https://chatgpt-to-notion.onrender.com/premium/get-trial",
+      "https://bard-to-notion.onrender.com/premium/get-trial",
       {
         method: "POST",
         headers: {

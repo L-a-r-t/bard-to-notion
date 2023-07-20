@@ -42,7 +42,7 @@ export default function Wrapper() {
         active: true,
         currentWindow: true
       })
-      if (!tabs[0].url?.match(/^(https:\/\/chat.openai.com).*/)) {
+      if (!tabs[0].url?.match(/^(https:\/\/bard.google.com).*/)) {
         if (!popup || popup === "index" || popup === "save")
           await setPopup("wrongpage")
       } else if (popup === "wrongpage") {
@@ -75,7 +75,7 @@ export default function Wrapper() {
   if (databases.length == 0) {
     return (
       <div className="flex flex-col p-3 w-64 text-base">
-        <img src={illustration} alt="ChatGPT to Notion" />
+        <img src={illustration} alt="Bard to Notion" />
         <SettingsPopup />
       </div>
     )
@@ -83,7 +83,7 @@ export default function Wrapper() {
 
   return (
     <div className="flex flex-col p-3 w-64 text-base">
-      <img src={illustration} alt="ChatGPT to Notion" />
+      <img src={illustration} alt="Bard to Notion" />
       {popup !== "wrongpage" && (
         <div className="grid grid-cols-3 mb-1">
           {Object.keys(nav).map((key) => (

@@ -2,6 +2,7 @@ import type {
   PageObjectResponse,
   PartialPageObjectResponse
 } from "@notionhq/client/build/src/api-endpoints"
+import { Storage } from "@plasmohq/storage"
 
 import getNotion from "~config/notion"
 import { generateTag } from "~utils/functions/notion"
@@ -17,44 +18,51 @@ export const checkSaveConflict = async ({
   try {
     if (title === "") throw new Error("Title can't be empty")
 
+    const storage = new Storage()
+    const savesLeft = await storage.get<number>("savesLeft")
+
+    if (savesLeft === 0) throw new Error("No saves left today")
+
     const notion = await getNotion()
     const { propertiesIds, tags, tagPropertyIndex, tagIndex } = database
     const tag = generateTag(tags[tagPropertyIndex], tagIndex)
 
     const tagType = tags[tagPropertyIndex].type
+    const hasOptions = tags[tagPropertyIndex].options.length > 0
 
     const searchRes = await notion.databases.query({
       database_id: database.id,
-      filter: tag
-        ? {
-            and: [
-              {
-                property: propertiesIds.title,
-                title: {
-                  equals: title
-                }
-              },
-              tagType === "select"
-                ? {
-                    property: tags[tagPropertyIndex].id,
-                    select: {
-                      equals: tags[tagPropertyIndex].options[tagIndex].name
-                    }
+      filter:
+        tag && hasOptions
+          ? {
+              and: [
+                {
+                  property: propertiesIds.title,
+                  title: {
+                    equals: title
                   }
-                : {
-                    property: tags[tagPropertyIndex].id,
-                    multi_select: {
-                      contains: tags[tagPropertyIndex].options[tagIndex].name
+                },
+                tagType === "select"
+                  ? {
+                      property: tags[tagPropertyIndex].id,
+                      select: {
+                        equals: tags[tagPropertyIndex].options[tagIndex].name
+                      }
                     }
-                  }
-            ]
-          }
-        : {
-            property: propertiesIds.title,
-            title: {
-              equals: title
+                  : {
+                      property: tags[tagPropertyIndex].id,
+                      multi_select: {
+                        contains: tags[tagPropertyIndex].options[tagIndex].name
+                      }
+                    }
+              ]
             }
-          }
+          : {
+              property: propertiesIds.title,
+              title: {
+                equals: title
+              }
+            }
     })
 
     const conflict = searchRes.results.length > 0

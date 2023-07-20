@@ -28,7 +28,7 @@ function AboutPopup() {
         <li>
           <a
             className="link text-sm"
-            href="https://github.com/L-a-r-t/ChatGPT-to-Notion"
+            href="https://github.com/L-a-r-t/Bard-to-Notion"
             target="_blank">
             {i18n("about_github")}
           </a>

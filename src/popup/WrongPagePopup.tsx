@@ -16,8 +16,8 @@ function WrongPagePopup() {
     <>
       <p className="text-center">
         {i18n("wrongpage_goTo") + " "}
-        <a href="https://chat.openai.com" target="_blank" className="link">
-          {i18n("wrongpage_chatgpt")}
+        <a href="https://bard.google.com/" target="_blank" className="link">
+          {i18n("wrongpage_bard")}
         </a>
         {" " + i18n("wrongpage_toUse")}
       </p>

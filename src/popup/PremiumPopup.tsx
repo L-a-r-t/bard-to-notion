@@ -14,8 +14,6 @@ dayjs.extend(localizedFormat)
 
 function PremiumPopup() {
   const [isPremium, setPremiumStatus] = useStorage("isPremium", false)
-  const [activeTrial, setactiveTrial] = useStorage("activeTrial", false)
-  const [trialEnd, setTrialEnd] = useStorage("trialEnd", 0)
 
   const [licenseKey, setLicenseKey] = useState("")
   const [loading, setLoading] = useState(false)
@@ -26,12 +24,6 @@ function PremiumPopup() {
   const [trialStatus, setTrialStatus] = useState<
     "valid" | "invalid" | "unknown" | "over" | "active"
   >("unknown")
-
-  useEffect(() => {
-    if (!trialEnd) return
-    if (trialStatus === "unknown")
-      setTrialStatus(dayjs(trialEnd).isAfter(dayjs()) ? "active" : "over")
-  }, [trialEnd])
 
   const handleActivate = async () => {
     try {
@@ -51,8 +43,6 @@ function PremiumPopup() {
       setLoading(true)
       const res = await activateTrial()
       setTrialStatus(res.success ? "valid" : "invalid")
-      setTrialEnd(res.trialEnd)
-      setactiveTrial(res.success)
     } catch (err) {
       console.error(err)
     } finally {
@@ -61,27 +51,22 @@ function PremiumPopup() {
   }
 
   // TODO: get rid of duplicate code
-  if (
-    (isPremium || activeTrial) &&
-    keyStatus === "unknown" &&
-    trialStatus !== "valid"
-  )
+  if (isPremium && keyStatus === "unknown" && trialStatus !== "valid")
     return (
       <div>
         <h2 className="text-center font-bold">{i18n("premium_isPremium")}</h2>
         <p className="text-sm">{i18n("premium_isPremium_meaning")}</p>
         <ul>
-          <li className="text-sm">- {i18n("premium_isPremium_autosave")}</li>
+          <li className="text-sm">
+            - {i18n("premium_isPremium_unlimitedSaves")}
+          </li>
           <li className="text-sm">- {i18n("premium_isPremium_future")}</li>
           <li className="text-sm">- {i18n("premium_isPremium_noAds")}</li>
           <li className="text-sm">- {i18n("premium_isPremium_support")}</li>
           <li className="text-sm">- {i18n("premium_isPremium_gratitude")}</li>
         </ul>
-        {!isPremium && (
+        {/* {!isPremium && (
           <>
-            <p className="text-sm font-bold">
-              {i18n("premium_trial_endDate")} {dayjs(trialEnd).format("LL")}
-            </p>
             <a
               className="block link text-center mb-2"
               href="https://theolartigau.gumroad.com/l/chatgpt-to-notion"
@@ -103,7 +88,7 @@ function PremiumPopup() {
               {loading && <Spinner white small />}
             </button>
           </>
-        )}
+        )} */}
       </div>
     )
 
@@ -133,9 +118,8 @@ function PremiumPopup() {
         {keyStatus === "invalid" && i18n("premium_key_activate_error")}
         {loading && <Spinner white small />}
       </button>
-      {keyStatus === "unknown" && (
+      {/* {keyStatus === "unknown" && (
         <>
-          {/* <p className="text-sm">{i18n("premium_key_activate_desc")}</p> */}
           <div className="my-2 relative w-full">
             <div className="absolute top-1/2 left-0 border w-full -z-10" />
             <p className="text-center">
@@ -144,35 +128,8 @@ function PremiumPopup() {
               </span>
             </p>
           </div>
-          {trialStatus !== "over" && (
-            <button
-              disabled={loading || trialStatus === "valid"}
-              onClick={handleTrial}
-              className="button-outline w-full text-sm">
-              {trialStatus === "unknown" && (
-                <p className="text-sm">{i18n("premium_trial_cta")}</p>
-              )}
-              {trialStatus === "valid" && (
-                <p className="text-sm">{i18n("premium_trial_success")}</p>
-              )}
-              {trialStatus === "invalid" && (
-                <p className="text-sm">{i18n("premium_trial_error")}</p>
-              )}
-            </button>
-          )}
-          {trialStatus === "unknown" && (
-            <p className="text-sm">{i18n("premium_trial_noInfo")}</p>
-          )}
-          {trialStatus === "valid" && (
-            <p className="text-sm">
-              {i18n("premium_trial_endDate")} {dayjs(trialEnd).format("LL")}
-            </p>
-          )}
-          {trialStatus === "over" && (
-            <p className="text-sm">{i18n("premium_trial_over")}</p>
-          )}
         </>
-      )}
+      )} */}
       {keyStatus === "valid" && (
         <p className="text-sm">{i18n("premium_success")}</p>
       )}

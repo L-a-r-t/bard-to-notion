@@ -5,32 +5,43 @@ export const config: PlasmoContentScript = {
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === "chatgpt-to-notion_fetchFullChat")
+  if (message.type === "bard-to-notion_fetchFullChat")
     sendResponse(fetchFullChat())
+  else if (message.type === "bard-to-notion_fetchTitle")
+    sendResponse(fetchTitle())
 })
 
 const fetchFullChat = () => {
   const matches = document.querySelectorAll(".conversation-container")
   const chat = Array.from(matches)
 
-  const rawPrompts = chat.filter((el, index) => index % 2 === 0)
-  const rawAnswers = chat.filter((el, index) => index % 2 === 1)
-
-  const prompts = rawPrompts.map(
+  const prompts = chat.map(
     (el) => el.querySelector(".query-text")?.textContent
   )
-  const answers = rawAnswers.map(
+  const answers = chat.map(
     (el) =>
       (
-        el.querySelector(".markdown") ??
+        el.querySelector(".response-content > .model-response-text > .markdown") ??
         el.querySelector(".dark.text-orange-500")
       )?.innerHTML
   )
 
   const url = window.location.href
-  const title = document.querySelector(
+  let title = document.querySelector(
     ".conversation.selected > .conversation-title"
-  )
+  )?.textContent ?? "New Conversation"
+
+  title = title.trim()
 
   return { prompts, answers, url, title }
+}
+
+const fetchTitle = () => {
+  let title = document.querySelector(
+    ".conversation.selected > .conversation-title"
+  )?.textContent ?? "New Conversation"
+
+  title = title.trim()
+  
+  return title
 }

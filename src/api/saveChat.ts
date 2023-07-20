@@ -58,10 +58,8 @@ export const saveChat = async ({
           database_id: database.id
         },
         icon: {
-          type: "external",
-          external: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg"
-          }
+          type: "emoji",
+          emoji: "✨"
         },
         properties: {
           [propertiesIds.title]: {
