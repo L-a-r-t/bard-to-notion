@@ -1,10 +1,11 @@
-import { tokenRouter, premiumRouter } from "./routes"
+import { tokenRouter, premiumRouter, saveRouter } from "./routes"
 import bodyParser from "body-parser"
 import cors from "cors"
 import dotenv from "dotenv"
 import express from "express"
 import helmet from "helmet"
 import mongoose from "mongoose"
+import resetCounters from "jobs/resetCounters"
 
 dotenv.config()
 
@@ -23,6 +24,9 @@ app.get("/keepalive", (req, res) => {
 })
 app.use("/token", tokenRouter)
 app.use("/premium", premiumRouter)
+app.use("/save", saveRouter)
+
+resetCounters.scheduleRecurrence()
 
 app.listen(5000, () => {
   console.log("Listening on port 5000")
