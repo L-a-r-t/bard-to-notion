@@ -17,7 +17,7 @@ export const post = async (req: Request, res: Response) => {
 
     if (!isPremium) {
       const { today_saves } = data
-      savesLeft = Math.max(8 - today_saves, 0)
+      savesLeft = Math.max(10 - today_saves, 0)
     }
 
     res.status(200).send({ savesLeft })
