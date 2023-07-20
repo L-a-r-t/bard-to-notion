@@ -71,7 +71,7 @@ function PremiumPopup() {
           <>
             <a
               className="block link text-center mb-2"
-              href="https://theolartigau.gumroad.com/l/chatgpt-to-notion"
+              href="https://theolartigau.gumroad.com/l/bard-to-notion"
               target="_blank">
               {i18n("premium_cta")}
             </a>
@@ -100,7 +100,7 @@ function PremiumPopup() {
       <p className="text-sm text-center font-bold">{i18n("premium_desc")}</p>
       <a
         className="block link text-center mb-2"
-        href="https://theolartigau.gumroad.com/l/chatgpt-to-notion"
+        href="https://theolartigau.gumroad.com/l/bard-to-notion"
         target="_blank">
         {i18n("premium_cta")}
       </a>

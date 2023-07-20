@@ -355,7 +355,7 @@ function IndexPopup() {
       {error?.status === 401 && (
         <a
           className="link text-sm"
-          href="https://theo-lartigau.notion.site/FAQ-50befa31f01a495b9d634e3f575dd4ba"
+          href="https://theo-lartigau.notion.site/FAQ-214e7413e07e4887aa84339b64c17296?pvs=4"
           target="_blank">
           {i18n("about_FAQ")}
         </a>

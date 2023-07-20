@@ -13,7 +13,10 @@ const saveFromContextMenu = async (saveBehavior: "append" | "override") => {
   const tabId = tabs[0].id!
 
   try {
-    const res = await chrome.tabs.sendMessage(tabId, "fetchFullChat")
+    const res = await chrome.tabs.sendMessage(
+      tabId,
+      "bard-to-notion_fetchFullChat"
+    )
     const { prompts, answers, url, title } = res
 
     const storage = new Storage()
