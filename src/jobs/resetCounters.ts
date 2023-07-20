@@ -1,5 +1,5 @@
-import BardData from "models/token"
-import BardSaves from "models/counters"
+import BardData from "../models/token"
+import BardSaves from "../models/counters"
 import schedule from "node-schedule"
 import dayjs from "dayjs"
 
