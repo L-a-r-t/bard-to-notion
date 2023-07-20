@@ -10,7 +10,7 @@ export const post = async (req: Request, res: Response) => {
 
     const data = await BardData.findOneAndUpdate(
       { id },
-      { today_saves: { $inc: answers } },
+      { $inc: { today_saves: answers } },
       { new: true }
     )
     if (!data) throw new Error("user data not found")
