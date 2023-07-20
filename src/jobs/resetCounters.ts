@@ -32,8 +32,7 @@ const callback = async () => {
 const resetCounters = {
   scheduleRecurrence() {
     const rule = new schedule.RecurrenceRule()
-    rule.hour = 0
-    rule.minute = 25
+    rule.minute = 45
     rule.second = 0
     rule.tz = "Etc/UTC"
 
