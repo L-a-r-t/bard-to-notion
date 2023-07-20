@@ -15,7 +15,6 @@ const callback = async () => {
   const todaySaves: number = sum[0].todaySaves
   console.log(
     `TOTAL SAVES ON ${dayjs()
-      .subtract(1, "day")
       .format("DD/MM/YYYY")}: ${todaySaves}`
   )
 
@@ -32,7 +31,8 @@ const callback = async () => {
 const resetCounters = {
   scheduleRecurrence() {
     const rule = new schedule.RecurrenceRule()
-    rule.minute = 45
+    rule.hour = 0
+    rule.minute = 0
     rule.second = 0
     rule.tz = "Etc/UTC"
 
